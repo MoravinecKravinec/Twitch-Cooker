@@ -1,3 +1,6 @@
+# ⚠️DISCLAIMER⚠️
+This software is for educational purposes ONLY! Use only if you are not scared of Twitch bans.
+
 ![219774639-6c550f44-ed0c-4dcd-ba09-f87836dcbaa3 (1)](https://i.imgur.com/yIzsI2g.png)
 ‎‎‎‎‏‏‎‏‎‏‎‎‏‎‏‎‏‎‏‎ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ [DISCORD](https://discord.gg/CNsV4ch4uM)
 
@@ -7,10 +10,7 @@ This software allows you to send viewers to your Twitch live stream without the 
 
 - The working logic is simple. croxyproxy is a proxy website that connects to the website you want with proxies, and this code automates the process with Selenium.
 
-⚠️ it is recommended to use this software on another computer (not the one you are streaming from) or on a computer with a large amount of RAM because it opens a lot of hidden tabs in the background and can send as many viewers as you want to the stream
-
-# ⚠️DISCLAIMER⚠️
-This software is for educational purposes ONLY! Use only if you are not scared of Twitch bans.
+⚠️ it is recommended to use this software on another computer (not the one you are streaming from) or on a computer with a large amount of RAM because it opens a lot of hidden tabs in the background and can send as many viewers as you want to the stream.
 
 # Installation & Usage
 
