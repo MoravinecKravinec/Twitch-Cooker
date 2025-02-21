@@ -103,20 +103,34 @@ def main():
         if not proxy_count.strip():
             raise EOFError
         proxy_count = int(proxy_count)
+        if proxy_count <= 0:
+            raise ValueError("Viewer count must be positive")
     except (ValueError, EOFError):
         # Read from autosettings.txt as fallback
         try:
             with open('autosettings.txt', 'r') as f:
                 lines = f.readlines()
                 if len(lines) >= 3:
-                    proxy_count = int(lines[2].strip())
+                    proxy_count_str = next((line.strip() for line in lines if line.strip().isdigit()), None)
+                    if proxy_count_str is None:
+                        raise ValueError("No valid viewer count found in autosettings.txt")
+                    proxy_count = int(proxy_count_str)
+                    if proxy_count <= 0:
+                        raise ValueError("Viewer count must be positive")
                     print(Colorate.Vertical(Colors.cyan_to_blue, f"Using viewer count: {proxy_count}"))
                 else:
                     print(Colorate.Vertical(Colors.red_to_blue, "Error: Could not read viewer count from autosettings.txt"))
                     return
-        except (FileNotFoundError, ValueError):
-            print(Colorate.Vertical(Colors.red_to_blue, "Error: Could not read valid viewer count"))
+        except (FileNotFoundError, ValueError) as e:
+            print(Colorate.Vertical(Colors.red_to_blue, f"Error: Could not read valid viewer count - {str(e)}"))
             return
+
+    # Ask for repeat mode
+    try:
+        repeat_mode = input(Colorate.Vertical(Colors.cyan_to_blue, "Do you want to run in repeat mode? (y/n): ")).strip().lower()
+        repeat = repeat_mode.startswith('y')
+    except EOFError:
+        repeat = False
 
     os.system("cls")
     print(Colorate.Vertical(Colors.green_to_cyan, Center.XCenter("""
@@ -157,7 +171,18 @@ def main():
         text_box.send_keys(f'www.twitch.tv/{twitch_username}')
         text_box.send_keys(Keys.RETURN)
 
-    input(Colorate.Vertical(Colors.red_to_blue, "Viewers have all been sent. You can press enter to withdraw the views and the program will close."))
+    if repeat:
+        print(Colorate.Vertical(Colors.green_to_blue, "Running in repeat mode. Press Ctrl+C to stop."))
+        try:
+            while True:
+                time.sleep(3600)  # Wait for 1 hour
+                driver.refresh()  # Refresh all tabs
+        except KeyboardInterrupt:
+            print(Colorate.Vertical(Colors.red_to_blue, "\nStopping repeat mode..."))
+    else:
+        print(Colorate.Vertical(Colors.red_to_blue, "Viewers have all been sent. Withdrawing views and closing program..."))
+        time.sleep(2)  # Give user time to read the message
+    
     driver.quit()
 
 
