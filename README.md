@@ -1,8 +1,6 @@
-# ⚠️DISCLAIMER⚠️
-This software is for educational purposes ONLY! Use only if you are not scared of Twitch bans.
+⚠️ This software is for educational purposes ONLY! Use only if you are not scared of Twitch bans.⚠️ 
 
 ![219774639-6c550f44-ed0c-4dcd-ba09-f87836dcbaa3 (1)](https://i.imgur.com/yIzsI2g.png)
-‎‎‎‎‏‏‎‏‎‏‎‎‏‎‏‎‏‎‏‎ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ [DISCORD](https://discord.gg/CNsV4ch4uM)
 
 🇨🇿 FROM CZECHOSLOVAKIA WITH LOVE! 🇸🇰
 
@@ -36,6 +34,8 @@ This software allows you to send viewers to your Twitch live stream without the 
 - If the audience delivery takes too long and sends only a few viewers, close the client and reopen it, then repeat the same steps. (Proxy sites can sometimes slow down.)
 
 - To stop the repeating, simply close the script.
+
+- Gather some friends to viewbot you!
 
 Go Wild.
 
