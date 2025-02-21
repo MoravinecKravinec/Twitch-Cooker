@@ -80,7 +80,7 @@ def main():
     proxy_url = proxy_servers.get(proxy_choice)
 
     try:
-        twitch_username = input(Colorate.Vertical(Colors.green_to_blue, "Enter your channel name (e.g bathrobe_dwane): "))
+        twitch_username = input(Colorate.Vertical(Colors.green_to_blue, "Enter your channel name (e.g brentonandtheboys): "))
         if not twitch_username.strip():
             raise EOFError
     except EOFError:
