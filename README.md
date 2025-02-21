@@ -3,16 +3,16 @@
 
 🇨🇿 FROM CZECHOSLOVAKIA WITH LOVE! 🇸🇰
 
-# ⚠️DISCLAIMER⚠️
-This software is for educational purposes ONLY! Use only if you are not scared of Twitch bans.
-
 This software allows you to send viewers to your Twitch live stream without the need for a proxy. The way it works is through Selenium, which enters proxy sites, types the channel name, and then reduces the stream quality to 160p. This allows you to connect to the live stream as a viewer through a proxy without having to pay for one..
 
 - The working logic is simple. croxyproxy is a proxy website that connects to the website you want with proxies, and this code automates the process with Selenium.
 
 ⚠️ it is recommended to use this software on another computer (not the one you are streaming from) or on a computer with a large amount of RAM because it opens a lot of hidden tabs in the background and can send as many viewers as you want to the stream
 
-# 📥 Installation & Usage
+# ⚠️DISCLAIMER⚠️
+This software is for educational purposes ONLY! Use only if you are not scared of Twitch bans.
+
+# Installation & Usage
 
 - Python must be installed
 - If your Python is not installed, download the latest version (3.11) of python and make sure to click on the 'ADD TO PATH' during installation.
@@ -21,7 +21,7 @@ This software allows you to send viewers to your Twitch live stream without the 
   
 - Clone this repo or download manually, then run "INSTALL.bat"
 
-## Usage ⚙️
+## Usage
 
 # CMD Mode or GUI Mode?
 
