@@ -27,15 +27,15 @@ This software allows you to send viewers to your Twitch live stream without the 
 
 - CMD mode has two modes, Run once or Run in repeat. Running once it closes after sending viewers and the viewers may leave after some time. Repeat mode tries to keep the viewers stable by re-running it after every close using the "autosettings.txt" file. !!!MAKE SURE TO MODIFY TO YOUR PROXY, CHANNEL AND VIEWER COUNT!!!
 
+- in GUI mode, you just run the GUI mode bat and you fill your settings and either press Run Once and Run Repeat.
+
 # Usage recommendations 📖
 
 - This system opens multiple background sites, so make sure you have plenty of RAM or perform this operation on an unused computer. (It could be on a powerful virtual server.)
 
 - If the audience delivery takes too long and sends only a few viewers, close the client and reopen it, then repeat the same steps. (Proxy sites can sometimes slow down.)
 
+Go Wild.
 
-# Stars ⭐
-- Send more viewers and monetize ads / 50 Star ⭐ ✔️ 17.05.2023
-- It automatically lowers the broadcast quality and prevents the audience drop. / 100 Star ⭐⭐⭐ ✔️ 19.08.2023
 
 
