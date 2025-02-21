@@ -5,8 +5,9 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 
-# Initialize Pygame
+# Initialize Pygame and mixer
 pygame.init()
+pygame.mixer.init()
 
 # Constants
 WINDOW_WIDTH = 1024
@@ -34,6 +35,20 @@ BUTTON_SPACING = 60
 # Create the window and set up display
 screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 pygame.display.set_caption("Twitch Cooker")
+
+# Load mascot image and laugh sound
+try:
+    mascot_image = pygame.image.load('mascot.png')
+    mascot_rect = mascot_image.get_rect()
+    mascot_rect.topleft = (50, 50)  # Position the mascot in the top-left corner
+except:
+    mascot_image = None
+    mascot_rect = None
+
+try:
+    laugh_sound = pygame.mixer.Sound('laugh.mp3')
+except:
+    laugh_sound = None
 
 # Set custom icon if available
 try:
@@ -197,6 +212,38 @@ def main():
     running = True
     
     while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+                if bot_thread and bot_thread.is_alive():
+                    sys.exit()
+            
+            # Handle mascot click
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if mascot_rect and mascot_rect.collidepoint(event.pos):
+                    if laugh_sound:
+                        laugh_sound.play()
+            
+            proxy_box.handle_event(event)
+            channel_box.handle_event(event)
+            viewer_box.handle_event(event)
+            
+            if run_once_btn.handle_event(event):
+                if not bot_thread or not bot_thread.is_alive():
+                    bot_thread = threading.Thread(
+                        target=run_viewer_bot,
+                        args=(proxy_box.text, channel_box.text, viewer_box.text, False)
+                    )
+                    bot_thread.start()
+            
+            if run_repeat_btn.handle_event(event):
+                if not bot_thread or not bot_thread.is_alive():
+                    bot_thread = threading.Thread(
+                        target=run_viewer_bot,
+                        args=(proxy_box.text, channel_box.text, viewer_box.text, True)
+                    )
+                    bot_thread.start()
+        
         screen.fill(PURPLE)
         
         # Draw title
@@ -220,32 +267,9 @@ def main():
         if mascot:
             screen.blit(mascot, mascot_rect)
         
-        # Handle events
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-                if bot_thread and bot_thread.is_alive():
-                    sys.exit()
-            
-            proxy_box.handle_event(event)
-            channel_box.handle_event(event)
-            viewer_box.handle_event(event)
-            
-            if run_once_btn.handle_event(event):
-                if not bot_thread or not bot_thread.is_alive():
-                    bot_thread = threading.Thread(
-                        target=run_viewer_bot,
-                        args=(proxy_box.text, channel_box.text, viewer_box.text, False)
-                    )
-                    bot_thread.start()
-            
-            if run_repeat_btn.handle_event(event):
-                if not bot_thread or not bot_thread.is_alive():
-                    bot_thread = threading.Thread(
-                        target=run_viewer_bot,
-                        args=(proxy_box.text, channel_box.text, viewer_box.text, True)
-                    )
-                    bot_thread.start()
+        # Draw mascot image
+        if mascot_image:
+            screen.blit(mascot_image, mascot_rect)
         
         pygame.display.flip()
         pygame.time.Clock().tick(30)
