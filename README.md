@@ -27,7 +27,7 @@ This software allows you to send viewers to your Twitch live stream without the 
 
 - CMD mode has two modes, Run once or Run in repeat. Running once it closes after sending viewers and the viewers may leave after some time. Repeat mode tries to keep the viewers stable by re-running it after every close.
 
-- in GUI mode, you just run the GUI mode bat and you fill your settings and either press Run Once and Run Repeat.
+- GUI MODE IS STILL IN BETA! in GUI mode, you just run the GUI mode bat and you fill your settings and either press Run Once and Run Repeat.
 
 # Usage recommendations
 
