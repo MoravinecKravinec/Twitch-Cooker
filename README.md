@@ -29,11 +29,13 @@ This software is for educational purposes ONLY! Use only if you are not scared o
 
 - in GUI mode, you just run the GUI mode bat and you fill your settings and either press Run Once and Run Repeat.
 
-# Usage recommendations 📖
+# Usage recommendations
 
 - This system opens multiple background sites, so make sure you have plenty of RAM or perform this operation on an unused computer. (It could be on a powerful virtual server.)
 
 - If the audience delivery takes too long and sends only a few viewers, close the client and reopen it, then repeat the same steps. (Proxy sites can sometimes slow down.)
+
+- To stop the repeating, simply close the script.
 
 Go Wild.
 
