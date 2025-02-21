@@ -21,6 +21,27 @@ def print_announcement():
         print("")
 
 
+def save_settings(proxy_choice, channel_name, viewer_count):
+    with open('repeat_settings.txt', 'w') as f:
+        f.write(f"{proxy_choice}\n")
+        f.write(f"{channel_name}\n")
+        f.write(f"{viewer_count}\n")
+
+
+def load_settings():
+    settings = {'proxy': '1', 'channel': '', 'viewers': '0'}
+    try:
+        with open('repeat_settings.txt', 'r') as f:
+            lines = f.readlines()
+            if len(lines) >= 3:
+                settings['proxy'] = lines[0].strip()
+                settings['channel'] = lines[1].strip()
+                settings['viewers'] = lines[2].strip()
+    except FileNotFoundError:
+        pass
+    return settings
+
+
 def main():
     print_announcement()
 
@@ -37,7 +58,16 @@ def main():
     print("")
     print("")
     print("")
-    
+
+    # Ask for repeat mode first
+    try:
+        repeat_mode = input(Colorate.Vertical(Colors.cyan_to_blue, "Do you want to run in repeat mode? (y/n): ")).strip().lower()
+        repeat = repeat_mode.startswith('y')
+    except EOFError:
+        repeat = False
+
+    # Load saved settings only if repeat mode is enabled
+    settings = load_settings() if repeat else {'proxy': '1', 'channel': '', 'viewers': '0'}
 
     proxy_servers = {
         1: "https://www.blockaway.net",
@@ -59,8 +89,8 @@ def main():
         try:
             user_input = input("> ")
             if not user_input:  # Handle EOF or empty input
-                print(Colorate.Vertical(Colors.red_to_blue,"Using default proxy server 1"))
-                proxy_choice = 1
+                proxy_choice = int(settings['proxy']) if repeat else 1
+                print(Colorate.Vertical(Colors.red_to_blue,f"Using {'saved' if repeat else 'default'} proxy server {proxy_choice}"))
                 break
             
             user_input = user_input.strip()
@@ -73,64 +103,58 @@ def main():
         except ValueError:
             print(Colorate.Vertical(Colors.red_to_blue,"Please enter a valid number"))
         except EOFError:  # Handle piped input
-            print(Colorate.Vertical(Colors.red_to_blue,"Using default proxy server 1"))
-            proxy_choice = 1
+            proxy_choice = int(settings['proxy']) if repeat else 1
+            print(Colorate.Vertical(Colors.red_to_blue,f"Using {'saved' if repeat else 'default'} proxy server {proxy_choice}"))
             break
-    
-    proxy_url = proxy_servers.get(proxy_choice)
 
     try:
         twitch_username = input(Colorate.Vertical(Colors.green_to_blue, "Enter your channel name (e.g brentonandtheboys): "))
         if not twitch_username.strip():
-            raise EOFError
+            if repeat and settings['channel']:
+                twitch_username = settings['channel']
+                print(Colorate.Vertical(Colors.green_to_blue, f"Using saved channel: {twitch_username}"))
+            else:
+                print(Colorate.Vertical(Colors.red_to_blue, "Error: No channel name provided"))
+                return
     except EOFError:
-        # Read from autosettings.txt as fallback
-        try:
-            with open('autosettings.txt', 'r') as f:
-                lines = f.readlines()
-                if len(lines) >= 2:
-                    twitch_username = lines[1].strip()
-                    print(Colorate.Vertical(Colors.green_to_blue, f"Using channel: {twitch_username}"))
-                else:
-                    print(Colorate.Vertical(Colors.red_to_blue, "Error: Could not read channel from autosettings.txt"))
-                    return
-        except FileNotFoundError:
-            print(Colorate.Vertical(Colors.red_to_blue, "Error: autosettings.txt not found"))
+        if repeat and settings['channel']:
+            twitch_username = settings['channel']
+            print(Colorate.Vertical(Colors.green_to_blue, f"Using saved channel: {twitch_username}"))
+        else:
+            print(Colorate.Vertical(Colors.red_to_blue, "Error: No channel name provided"))
             return
 
     try:
-        proxy_count = input(Colorate.Vertical(Colors.cyan_to_blue, "How many proxy sites do you want to open? (Viewer to send)"))
+        proxy_count = input(Colorate.Vertical(Colors.cyan_to_blue, "How many proxy sites do you want to open? (Viewer to send): "))
         if not proxy_count.strip():
-            raise EOFError
-        proxy_count = int(proxy_count)
-        if proxy_count <= 0:
-            raise ValueError("Viewer count must be positive")
-    except (ValueError, EOFError):
-        # Read from autosettings.txt as fallback
-        try:
-            with open('autosettings.txt', 'r') as f:
-                lines = f.readlines()
-                if len(lines) >= 3:
-                    proxy_count_str = next((line.strip() for line in lines if line.strip().isdigit()), None)
-                    if proxy_count_str is None:
-                        raise ValueError("No valid viewer count found in autosettings.txt")
-                    proxy_count = int(proxy_count_str)
-                    if proxy_count <= 0:
-                        raise ValueError("Viewer count must be positive")
-                    print(Colorate.Vertical(Colors.cyan_to_blue, f"Using viewer count: {proxy_count}"))
-                else:
-                    print(Colorate.Vertical(Colors.red_to_blue, "Error: Could not read viewer count from autosettings.txt"))
-                    return
-        except (FileNotFoundError, ValueError) as e:
+            if repeat and settings['viewers']:
+                proxy_count = int(settings['viewers'])
+                if proxy_count <= 0:
+                    raise ValueError("Viewer count must be positive")
+                print(Colorate.Vertical(Colors.cyan_to_blue, f"Using saved viewer count: {proxy_count}"))
+            else:
+                raise ValueError("Viewer count required")
+        else:
+            proxy_count = int(proxy_count)
+            if proxy_count <= 0:
+                raise ValueError("Viewer count must be positive")
+    except (ValueError, EOFError) as e:
+        if repeat and settings['viewers']:
+            try:
+                proxy_count = int(settings['viewers'])
+                if proxy_count <= 0:
+                    raise ValueError("Viewer count must be positive")
+                print(Colorate.Vertical(Colors.cyan_to_blue, f"Using saved viewer count: {proxy_count}"))
+            except ValueError as ve:
+                print(Colorate.Vertical(Colors.red_to_blue, f"Error: Could not read valid viewer count - {str(ve)}"))
+                return
+        else:
             print(Colorate.Vertical(Colors.red_to_blue, f"Error: Could not read valid viewer count - {str(e)}"))
             return
 
-    # Ask for repeat mode
-    try:
-        repeat_mode = input(Colorate.Vertical(Colors.cyan_to_blue, "Do you want to run in repeat mode? (y/n): ")).strip().lower()
-        repeat = repeat_mode.startswith('y')
-    except EOFError:
-        repeat = False
+    # Save settings only if repeat mode is enabled
+    if repeat:
+        save_settings(proxy_choice, twitch_username, proxy_count)
 
     os.system("cls")
     print(Colorate.Vertical(Colors.green_to_cyan, Center.XCenter("""
@@ -160,12 +184,12 @@ def main():
     chrome_options.add_extension(extension_path)
     driver = webdriver.Chrome(options=chrome_options)
 
-    driver.get(proxy_url)
+    driver.get(proxy_servers.get(proxy_choice))
 
     for i in range(proxy_count):
-        driver.execute_script("window.open('" + proxy_url + "')")
+        driver.execute_script("window.open('" + proxy_servers.get(proxy_choice) + "')")
         driver.switch_to.window(driver.window_handles[-1])
-        driver.get(proxy_url)
+        driver.get(proxy_servers.get(proxy_choice))
 
         text_box = driver.find_element(By.ID, 'url')
         text_box.send_keys(f'www.twitch.tv/{twitch_username}')
