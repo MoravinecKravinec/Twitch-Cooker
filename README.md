@@ -1,5 +1,6 @@
-# ⚠️DISCLAIMER⚠️
-This software is for educational purposes ONLY! Use only if you are not scared of Twitch bans.
+### TWITCH COOKER
+
+⚠️ This software is for educational purposes ONLY! Use only if you are not scared of Twitch bans.⚠️ 
 
 ![219774639-6c550f44-ed0c-4dcd-ba09-f87836dcbaa3 (1)](https://i.imgur.com/yIzsI2g.png)
 
